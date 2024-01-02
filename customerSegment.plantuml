@@ -1,0 +1,53 @@
+@startuml customerSegment
+abstract CustomerTypeHandler{
+    # user: Object
+    # order: Object
+    - nextHandler
+    + setNext(Handler handler): Handler
+    + handle(): ?string
+    + get_mep_status(): ?string
+    + get_total_order(): ?int
+}
+class Visitor extends CustomerTypeHandler {
+    + handle(): ?string
+}
+class NewCustomerNonMEP extends CustomerTypeHandler {
+    + handle(): ?string
+}
+class NewCustomerTrialMEP  extends CustomerTypeHandler {
+    + handle(): ?string
+}
+class NewCustomerPaidMEP  extends CustomerTypeHandler{
+    + handle(): ?string
+}
+class RegisterCustomerNonMEP  extends CustomerTypeHandler{
+    + handle(): ?string
+}
+class RegisterCustomerTrialMEP  extends CustomerTypeHandler{
+    + handle(): ?string
+}
+class RegisterCustomerPaidMEP  extends CustomerTypeHandler{
+    + handle(): ?string
+}
+
+class CustomerTypeModel {
+    - customer_type: string
+    + setCustomerType(Handler handler):string
+    + getCustomerType(): string
+    <del>+ updateCustomerType(): void</del>
+}
+
+CustomerTypeModel <-- CustomerTypeHandler:use
+note left of CustomerTypeModel::updateCustomerType
+  Still need to think about it.
+end note
+
+note top of CustomerTypeModel
+  This implementation based on Chain of Responsibility design pattern
+end note
+
+@enduml
+
+' Example: https://github.com/porwal06/architect-diagram/wiki#plantuml-diagram-customer-segmentation-functionlity
+' PlantUML Download instruction:
+' Install PlantUML extentsion in VisualStudio https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml, and follow installation instuction.
